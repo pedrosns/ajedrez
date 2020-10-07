@@ -18,13 +18,16 @@ public class Piece {
         this.rowDestino = rowDestino;
         this.colDestino = colDestino;
     }
+
     public void setDestino(int rowDestino, int colDestino){
         this.rowDestino=rowDestino;
         this.colDestino=colDestino;
     }
+
     public int getDestino(){
         return this.rowDestino + this.colDestino;
     }
+
     public void setIdentify(String identify){
         this.identify=identify;
     }
@@ -34,50 +37,11 @@ public class Piece {
     }
 
     public String toString() {
-        return "["+this.row+","+this.colum+"]";
+        return "[ ]";
     }
 }
 
 
-    class Peon extends Piece{
+   
+
     
-    public Peon(int row, int colum){
-        super(row, colum);
-    }
-
-}
-
-     class Alfil extends Piece{
-    
-    public Alfil(int row, int colum){
-        super(row, colum);
-    }
-}
-
-     class Torre extends Piece{
-    
-    public Torre(int row, int colum){
-        super(row, colum);
-    }
-}
-
-class Caballo extends Piece{
-    
-    public Caballo(int row, int colum){
-        super(row, colum);
-    }
-}
-
-class Reina extends Piece{
-    
-    public Reina(int row, int colum){
-        super(row, colum);
-    }
-}
-
-class Rey extends Piece{
-    
-    public Rey(int row, int colum){
-        super(row, colum);
-    }
-}
