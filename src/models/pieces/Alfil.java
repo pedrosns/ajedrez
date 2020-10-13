@@ -1,4 +1,6 @@
 package models.pieces;
+
+import exceptions.GameException;
 import models.Piece;
 import models.Position;
 
@@ -13,7 +15,7 @@ public class Alfil extends Piece{
         return ("[A]");
     }
     @Override
-    public Boolean canMove(Position destination) {
+    public Boolean canMove(Position destination) throws GameException  {
         if (((destination.row-position.row) == (destination.col-position.col))){
             
             return  super.canMove(destination);

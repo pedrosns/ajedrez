@@ -1,5 +1,7 @@
 package models;
 
+import exceptions.GameException;
+
 public class Piece {
     protected Position position;
     protected int user;
@@ -19,7 +21,7 @@ public class Piece {
         return "[ ]";
     }
 
-    public Boolean canMove(Position position){
+    public Boolean canMove(Position position) throws GameException {
         return true;
     }
 

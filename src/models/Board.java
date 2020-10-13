@@ -1,5 +1,6 @@
 package models;
 
+import exceptions.GameException;
 import models.pieces.Alfil;
 import models.pieces.Caballo;
 import models.pieces.Peon;
@@ -59,20 +60,19 @@ public class Board {
             System.out.print("\n");
         }
     }
-    public Boolean canMove(Piece pieza, Position destination){
+    // Validar que no existe una pieza del mismo jugador
+    public Boolean canMove(Piece pieza, Position destination) throws GameException {
         Piece piezaDestino=this.board[destination.row][destination.col];
         if (piezaDestino.user!=pieza.user) {
             return true;
         } else {
-            return false;
+            throw new GameException("No se puede mover, hay una pieza en ese lugar");
         }
-        
-        
     }
 
     // row1 and colum1 donde estoy
     // row2 and colum2 a donde voy
-    public boolean swap(Position position1, Position position2) {
+    public boolean swap(Position position1, Position position2) throws GameException {
         if ((position1.row < 8 && position1.row >= 0) && (position1.col < 8 && position1.col >= 0)
                 && (position2.row < 8 && position2.row >= 0) && (position2.col < 8 && position2.col >= 0)) {
             if (this.board[position1.row][position1.col].canMove(position2) && this.canMove(this.board[position1.row][position1.col], position2)) {

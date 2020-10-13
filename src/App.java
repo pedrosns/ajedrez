@@ -3,33 +3,34 @@ import models.Position;
 
 import java.util.*;
 
+import exceptions.GameException;
+
 public class App {
     public static void main(String[] args) throws Exception {
         Board board = new Board();
-        Boolean endGame= false;
-        Scanner scanner= new Scanner(System.in);
-
+        Boolean endGame = false;
+        Scanner scanner = new Scanner(System.in);
 
         board.fill();
 
-        
-
-        // board.swap(1, 7, 7, 7);
         while (!endGame) {
+            try {
+                board.print();
 
-            board.print();
-            
-            System.out.println("Indique la fila y la columna en donde se encuentra");
-            String from=scanner.next();
-            System.out.println("Indique la fila y la columna a donde quiere ir");
-            String to=scanner.next();
-            Position positionA=Position.stringToPosition(from);
-            Position positionB=Position.stringToPosition(to);
+                System.out.println("Indique la fila y la columna en donde se encuentra");
+                String from = scanner.next();
+                System.out.println("Indique la fila y la columna a donde quiere ir");
+                String to = scanner.next();
+                Position positionA = Position.stringToPosition(from);
+                Position positionB = Position.stringToPosition(to);
 
-            board.swap(positionA ,positionB);
+                board.swap(positionA, positionB);
 
-            
-
+            } catch (GameException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Error interno: " + e.getMessage());
+            }
         }
         scanner.close();
     }

@@ -1,5 +1,6 @@
 package models.pieces;
 
+import exceptions.GameException;
 import models.Piece;
 import models.Position;
 
@@ -15,8 +16,7 @@ public class Torre extends Piece{
     } 
 
     @Override
-    public Boolean canMove(Position destination) {
-
+    public Boolean canMove(Position destination) throws GameException  {
         if ((this.position.row==destination.row && this.position.col!=destination.col) ||(this.position.row!=destination.row && this.position.col==destination.col)){
         return super.canMove(destination);
         }else{

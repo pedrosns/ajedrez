@@ -1,5 +1,6 @@
 package models.pieces;
 
+import exceptions.GameException;
 import models.Piece;
 import models.Position;
 
@@ -14,7 +15,7 @@ public class Rey extends Piece {
     }
 
     @Override
-    public Boolean canMove(Position destination) {
+    public Boolean canMove(Position destination) throws GameException  {
         if ((destination.row < 8 && destination.col < 8)
                 && ((position.row == destination.row - 1) || (position.row == destination.row + 1)
                         || (position.col == destination.col - 1) || (position.col == destination.col + 1))) {

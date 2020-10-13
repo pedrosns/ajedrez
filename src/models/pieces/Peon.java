@@ -1,4 +1,5 @@
 package models.pieces;
+import exceptions.GameException;
 import models.Piece;
 import models.Position;
 
@@ -12,12 +13,10 @@ public class Peon extends Piece{
         return ("[P]");
     }
     @Override
-    public Boolean canMove(Position destination) {
+    public Boolean canMove(Position destination) throws GameException {
         if (destination.row < this.position.row || destination.col < this.position.col) {
-            return false;
-            
+            throw new GameException("El peon no puede realizar este movimiento");
         }
-
         return super.canMove(destination);
     }
 
