@@ -13,8 +13,7 @@ public class Position {
         int row=Integer.parseInt(values[0]);
         int col=Integer.parseInt(values[1]);
 
-        System.out.println(row);
-        System.out.println(col);
+        
         return new Position(row,col);
         
     }

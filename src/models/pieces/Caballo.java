@@ -3,8 +3,8 @@ import models.Piece;
 
 public class Caballo extends Piece {
     
-    public Caballo(int row, int colum){
-        super(row, colum);
+    public Caballo(int row, int colum,int user){
+        super(row,colum,user);
     }
 
     @Override
