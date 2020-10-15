@@ -23,7 +23,7 @@ public class Reina extends Piece {
                         || (this.position.row != destination.row && this.position.col == destination.col)))) {
             return super.canMove(position);
         } else {
-            return false;
+            throw new GameException("La Reina no puede realizar este movimiento");
         }
 
     }

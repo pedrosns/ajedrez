@@ -22,7 +22,7 @@ public class Rey extends Piece {
                             return super.canMove(position);
 
         } else {
-            return false;
+            throw new GameException("El Rey no puede realizar este movimiento");
         }
         
     }

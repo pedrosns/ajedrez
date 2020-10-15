@@ -20,7 +20,7 @@ public class Torre extends Piece{
         if ((this.position.row==destination.row && this.position.col!=destination.col) ||(this.position.row!=destination.row && this.position.col==destination.col)){
         return super.canMove(destination);
         }else{
-            return false;
+            throw new GameException("La torre no puede realizar este movimiento");
         }
         
     }

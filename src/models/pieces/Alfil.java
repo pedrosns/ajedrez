@@ -20,7 +20,7 @@ public class Alfil extends Piece{
             
             return  super.canMove(destination);
         }else{
-            return false;
+            throw new GameException("El alfil no puede realizar este movimiento");
         }
         
     }
