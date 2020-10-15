@@ -1,5 +1,8 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import exceptions.GameException;
 import models.pieces.Alfil;
 import models.pieces.Caballo;
@@ -10,9 +13,13 @@ import models.pieces.Torre;
 
 public class Board {
     private Piece[][] board;
+    private List<Piece> player1;
+    private List<Piece> player2;
 
     public Board() {
         this.board = new Piece[8][8];
+        this.player1 = new ArrayList<Piece>();
+        this.player2 = new ArrayList<Piece>();
     }
 
     // solo se llama una vez
@@ -21,32 +28,32 @@ public class Board {
         for (int row = 0; row < 8; row++) {
             for (int colum = 0; colum < 8; colum++) {
                 int user = 1;
-                if (row>4) {
-                    user=2;
+                if (row > 4) {
+                    user = 2;
                 }
-                this.board[row][colum] = new Piece(row, colum,0);
+                this.board[row][colum] = new Piece(row, colum, 0);
 
                 // peon
                 if (row == 1 || row == 6) {
-                    this.board[row][colum] = new Peon(row, colum,user);
+                    this.board[row][colum] = new Peon(row, colum, user);
                 }
                 if ((row == 0 && colum == 1) || (row == 0 && colum == 6) || (row == 7 && colum == 1)
                         || (row == 7 && colum == 6)) {
-                    this.board[row][colum] = new Caballo(row, colum,user);
+                    this.board[row][colum] = new Caballo(row, colum, user);
                 }
                 if ((row == 0 && colum == 0) || (row == 0 && colum == 7) || (row == 7 && colum == 0)
                         || (row == 7 && colum == 7)) {
-                    this.board[row][colum] = new Torre(row, colum,user);
+                    this.board[row][colum] = new Torre(row, colum, user);
                 }
                 if ((row == 0 && colum == 2) || (row == 0 && colum == 5) || (row == 7 && colum == 2)
                         || (row == 7 && colum == 5)) {
-                    this.board[row][colum] = new Alfil(row, colum,user);
+                    this.board[row][colum] = new Alfil(row, colum, user);
                 }
                 if ((row == 0 && colum == 3) || (row == 7 && colum == 4)) {
-                    this.board[row][colum] = new Rey(row, colum,user);
+                    this.board[row][colum] = new Rey(row, colum, user);
                 }
                 if ((row == 0 && colum == 4) || (row == 7 && colum == 3)) {
-                    this.board[row][colum] = new Reina(row, colum,user);
+                    this.board[row][colum] = new Reina(row, colum, user);
                 }
             }
         }
@@ -59,14 +66,25 @@ public class Board {
             }
             System.out.print("\n");
         }
+        this.printScore();
     }
+
     // Validar que no existe una pieza del mismo jugador
     public Boolean canMove(Piece pieza, Position destination) throws GameException {
-        Piece piezaDestino=this.board[destination.row][destination.col];
-        if (piezaDestino.user!=pieza.user) {
+        Piece piezaDestino = this.board[destination.row][destination.col];
+        if (piezaDestino.user != pieza.user) {
             return true;
         } else {
             throw new GameException("No se puede mover, hay una pieza en ese lugar");
+        }
+    }
+
+    public Boolean existPieceEnemy(Piece pieza, Position destination) {
+        Piece piezaDestino = this.board[destination.row][destination.col];
+        if (piezaDestino.user != 0 && piezaDestino.user != pieza.user) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -75,7 +93,26 @@ public class Board {
     public boolean swap(Position position1, Position position2) throws GameException {
         if ((position1.row < 8 && position1.row >= 0) && (position1.col < 8 && position1.col >= 0)
                 && (position2.row < 8 && position2.row >= 0) && (position2.col < 8 && position2.col >= 0)) {
-            if (this.board[position1.row][position1.col].canMove(position2) && this.canMove(this.board[position1.row][position1.col], position2)) {
+            if (this.board[position1.row][position1.col].canMove(position2)
+                    && this.canMove(this.board[position1.row][position1.col], position2)) {
+
+                // Validamos si podemos comer la pieza
+                if (this.existPieceEnemy(this.board[position1.row][position1.col], position2)) {
+                    Piece tmp = this.board[position1.row][position1.col];
+                    Piece dest = this.board[position2.row][position2.col];
+                    this.board[position1.row][position1.col] = new Piece(position1, 0);
+                    this.board[position2.row][position2.col] = tmp;
+                    this.board[position2.row][position2.col].changePosition(position2);
+
+                    // si la pieza que no hemos comido es del usuario 1
+                    if (dest.user == 1) {
+                        this.player2.add(dest);
+                    } else {
+                        this.player1.add(dest);
+                    }
+                    return true;
+                }
+
                 Piece tmp;
                 tmp = this.board[position1.row][position1.col];
                 this.board[position1.row][position1.col] = this.board[position2.row][position2.col];
@@ -87,9 +124,17 @@ public class Board {
         return true;
     }
 
-    /*
-     * h2 = peon h4 = vacio tmp = vacio
-     * 
-     * tmp = h2 h2 = h4 h4 = tmp
-     */
+    public void printScore() {
+        StringBuilder p1 = new StringBuilder();
+        for (int i = 0; i < this.player1.size(); i++) {
+            p1.append(this.player1.get(i) + " ");
+        }
+        StringBuilder p2 = new StringBuilder();
+        for (int i = 0; i < this.player2.size(); i++) {
+            p2.append(this.player2.get(i) + " ");
+        }
+
+        System.out.println("PLAYER 1: " + p1);
+        System.out.println("PLAYER 2: " + p2);
+    }
 }

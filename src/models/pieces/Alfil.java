@@ -4,24 +4,24 @@ import exceptions.GameException;
 import models.Piece;
 import models.Position;
 
-public class Alfil extends Piece{
+public class Alfil extends Piece {
 
-    public Alfil(int row, int colum,int user){
-        super(row,colum,user);
+    public Alfil(int row, int colum, int user) {
+        super(row, colum, user);
     }
 
     @Override
-    public String toString() {    
+    public String toString() {
         return ("[A]");
     }
+
     @Override
-    public Boolean canMove(Position destination) throws GameException  {
-        if (((destination.row-position.row) == (destination.col-position.col))){
-            
-            return  super.canMove(destination);
-        }else{
+    public Boolean canMove(Position destination) throws GameException {
+        if (((destination.row - position.row) == (destination.col - position.col))) {
+            return super.canMove(destination);
+        } else {
             throw new GameException("El alfil no puede realizar este movimiento");
         }
-        
+
     }
 }
